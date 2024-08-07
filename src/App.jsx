@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+// import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
+// import { useHistory } from "react-router-dom"
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import TableComponent from './components/table/TableCompnent.jsx'; // Import your TableComponent here
+import LandingPage from './components/landing/LandingPage.jsx'; // Assuming you have a LandingPage component
 
-function App() {
-  const [count, setCount] = useState(0)
+function Root() {
+  const navigate = useNavigate();
+  const [tableData, setTableData] = useState(null);
+
+  const handleFormSubmit = (jsonData) => {
+    setTableData(jsonData);
+    navigate('/table');
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {/* <button onClick={() => navigate(-1)}>go back</button> */}
+      <Routes>
+        <Route path="/" element={<LandingPage onSubmit={handleFormSubmit} />} />
+        <Route path="/table" element={<TableComponent data={tableData} />} />
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <BrowserRouter>
+      <Root />
+    </BrowserRouter>
+  );
+}
+
+export default App;

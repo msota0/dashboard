@@ -1,0 +1,123 @@
+
+
+/* Apply styles to the landing page */
+.landing-page {
+  background-color: white;
+  color: black;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uni-name {
+  width: 100%;
+  height: 30px;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+}
+
+.unilogo {
+  width: 100%;
+  height: 80px;
+  background-color: #252B5D;
+  display: flex;
+  justify-content: center;
+}
+
+.red-div {
+  width: 100%;
+  height: 2px;
+  background-color: #E31936;
+}
+
+.blue-div {
+  width: 100%;
+  height: 25px;
+  background-color: #252B5D;
+}
+
+.title {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 50px;
+  width: 100%;
+  height: 50px;
+  background-color: #efc7cc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.instructions{
+  text-align: center;
+}
+
+form{
+  margin-top: 180px;
+}
+
+
+.form-format {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#dropdown1 {
+  text-align: center;
+}
+
+#dropdown1 select {
+  font-size: 16px;
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  background-color: white;
+  color: black;
+}
+
+.names {
+  font-size: 16px;
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  background-color: white;
+  color: black;
+}
+
+.subjects{
+  font-size: 16px;
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  background-color: white;
+  color: black;
+}
+
+.button-cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-cont button {
+  margin-top: 20px; /*Adjust button margin top as needed */
+  background-color: #353855;
+  height: 40px;
+  width: 150px;
+  color: white;
+  font-weight: 300;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

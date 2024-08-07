@@ -1,7 +1,7 @@
 # Ebooks Dashboard: Guidelines for UI/UX Testing
 ## Brief: The Ebooks dashboard project aims to develop a user-friendly tool tailored for Ole Miss’ instructors. This dashboard will empower instructors to effortlessly filter and discover ebooks offering unlimited access within the Ole Miss’ digital library.
 ### Test Cases: 
-Steps to Reproduce:
+#### Steps to Reproduce:
 #### Choose the filter type and implement the following searches:
 
 1.	Find all books by an author named Robert published between 2008 to 2012.

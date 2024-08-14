@@ -114,7 +114,7 @@ def query_excel(df, option, inputVal, selectedSubject):
             result_data = filtered_df[['Book Title', 'First Author', 'Discipline', 'Publisher', 'Copyright Year', 'title_url', 'Class Level', 'Available']]
         
         # Sort result_data by 'Copyright Year' in descending order
-        result_data_sorted = result_data.sort_values(by='Copyright Year', ascending=False)
+        result_data_sorted = filtered_df.sort_values(by='Copyright Year', ascending=False)
         
         # Convert sorted result_data to dictionary format
         result_data_dict = result_data_sorted.to_dict(orient='records')

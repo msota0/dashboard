@@ -51,6 +51,7 @@ const TableComponent = () => {
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [loading, setLoading] = useState (false)
+  const [isFormVisible, setFormVisible] = useState(false);
   
   // const [currentPage, setCurrentPage] = useState(1)
   
@@ -68,6 +69,17 @@ const TableComponent = () => {
     location.reload();
 }
   }, []);
+
+  const contactUsForm = () =>{
+    alert('Your query form is submitted!')
+    setFormVisible(false);
+  }
+  
+
+  const handleButtonClick = () => {
+    
+    setFormVisible(true);
+  };
 
   // Handlers
   const handleSelection = (event) => {
@@ -111,6 +123,7 @@ const TableComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true)
+    setCurrentPage(1)
     let formData = {};
   
     if (selectedVal === '1' || selectedVal === '2') {
@@ -205,7 +218,7 @@ const TableComponent = () => {
       return (
         <>
           <input type="text" className='names' placeholder={placeholder} required />
-          <button type="submit">Submit</button>
+          <button type="submit" className='search-btn'>Submit</button>
         </>
       );
     } else if (selectedVal === '3') {
@@ -219,7 +232,7 @@ const TableComponent = () => {
               </option>
             ))}
           </select>
-          <button type="submit">Submit</button>
+          <button type="submit" className='search-btn'>Submit</button>
         </>
       );
     }
@@ -352,6 +365,141 @@ const TableComponent = () => {
   }, [tableData, filteredData]);
   
   const table_class = visibleData.length <= 50 ? 'table-v1' : 'table-v2';
+
+  const generateContactForm = () => {
+    let contact = document.getElementById('contact-form');
+    
+    let form = document.createElement('form');
+    form.setAttribute('action', '#'); 
+    form.setAttribute('method', 'post');
+    
+    // Function to create label and input wrapper
+    const createFormGroup = (labelText, inputType, inputId, inputName) => {
+        let formGroup = document.createElement('div');
+        formGroup.className = 'form-group';
+
+        let label = document.createElement('label');
+        label.setAttribute('for', inputId);
+        label.textContent = labelText;
+        
+        let input;
+        if (inputType === 'textarea') {
+            input = document.createElement('textarea');
+        } else {
+            input = document.createElement('input');
+            input.setAttribute('type', inputType);
+        }
+        input.setAttribute('id', inputId);
+        input.setAttribute('name', inputName);
+        input.setAttribute('required', true);
+
+        formGroup.appendChild(label);
+        formGroup.appendChild(input);
+        
+        return formGroup;
+    };
+
+    form.appendChild(createFormGroup('Name:', 'text', 'name', 'name'));
+    form.appendChild(createFormGroup('Email:', 'email', 'email', 'email'));
+    form.appendChild(createFormGroup('Message:', 'textarea', 'message', 'message'));
+
+    let buttonContainer = document.createElement('div');
+    buttonContainer.className = 'button-container';
+    
+    // Create and append the submit button
+    let submitButton = document.createElement('button');
+    submitButton.setAttribute('type', 'submit');
+    submitButton.textContent = 'Submit';
+    
+    // Add an onclick event listener to the submit button
+    submitButton.addEventListener('click', (event) => {
+      alert('your information requested has been submitted!')
+        event.preventDefault(); // Prevent the default form submission
+        location.reload(); // Refresh the page
+        
+    });
+    
+    buttonContainer.appendChild(submitButton);
+    
+    // Append the button container to the form
+    form.appendChild(buttonContainer);
+
+    // Clear any existing content in the contact div and append the new form
+    contact.innerHTML = '';
+    contact.appendChild(form);
+}
+
+// const contactUsForm = () => {
+//   let contact = document.getElementById('contact-us');
+  
+//   let form = document.createElement('form');
+//   form.setAttribute('action', '#'); 
+//   form.setAttribute('method', 'post');
+  
+//   // Function to create label and input wrapper
+//   const createFormGroup = (labelText, inputType, inputId, inputName) => {
+//       let formGroup = document.createElement('div');
+//       formGroup.className = 'form-group';
+
+//       let label = document.createElement('label');
+//       label.setAttribute('for', inputId);
+//       label.textContent = labelText;
+      
+//       let input;
+//       if (inputType === 'textarea') {
+//           input = document.createElement('textarea');
+//       } else {
+//           input = document.createElement('input');
+//           input.setAttribute('type', inputType);
+//       }
+//       input.setAttribute('id', inputId);
+//       input.setAttribute('name', inputName);
+//       input.setAttribute('required', true);
+
+//       formGroup.appendChild(label);
+//       formGroup.appendChild(input);
+      
+//       return formGroup;
+//   };
+
+//   form.appendChild(createFormGroup('Name:', 'text', 'name', 'name'));
+//   form.appendChild(createFormGroup('Email:', 'email', 'email', 'email'));
+//   form.appendChild(createFormGroup('Message:', 'textarea', 'message', 'message'));
+
+//   let buttonContainer = document.createElement('div');
+//   buttonContainer.className = 'button-container';
+  
+//   // Create and append the submit button
+//   let submitButton = document.createElement('button');
+//   submitButton.setAttribute('type', 'submit');
+//   submitButton.textContent = 'Submit';
+  
+//   // Add an onclick event listener to the submit button
+//   submitButton.addEventListener('click', (event) => {
+//       event.preventDefault(); // Prevent the default form submission
+      
+//       alert('Your information has been submitted!');
+      
+//       // Hide the form and show the original button again
+//       form.style.display = 'none';
+//       contact.querySelector('.contact-us-btn').style.display = 'inline-block';
+//   });
+  
+//   buttonContainer.appendChild(submitButton);
+  
+//   // Append the button container to the form
+//   form.appendChild(buttonContainer);
+
+//   // Clear any existing content in the contact div and append the new form
+//   contact.innerHTML = '';
+//   contact.appendChild(form);
+
+//   // Hide the original button and show the form
+//   let originalButton = contact.querySelector('.contact-us-btn');
+//   if (originalButton) {
+//       originalButton.style.display = 'none';
+//   }
+// }
   
   
 
@@ -365,7 +513,7 @@ const TableComponent = () => {
       {/* <main className='main'> */}
         <form onSubmit={handleSubmit}>
           <label>
-            Select a category:
+            Select a search category:
             <select className='dropdown1' value={selectedVal} onChange={handleSelection}>
             <option value="" disabled hidden>Select ...</option>
               <option value='1'>Book Title</option>
@@ -376,7 +524,7 @@ const TableComponent = () => {
           {renderSelectedComponent()}
           {/*<button type='button' onClick = {() => resetFilters()}>Reset Filters</button>*/}
           {filteredData.length === 0 && filtersApplied &&
-            <button type='button' onClick = {() => resetFilters()}>Reset Refined Filters</button>
+            <button type='button' onClick = {() => resetFilters()}  className='search-btn'>Reset Refined Filters</button>
           }
         </form>
 
@@ -501,8 +649,47 @@ const TableComponent = () => {
                       </div>
                     )}
                   </div>
-                  <button type='button' onClick={() => applyFilters()}>Apply Filters</button>
-                  <button type='button' onClick = {() => resetFilters()}>Reset Filters</button>
+                  <button type='button' onClick={() => applyFilters()} className='search-btn'>Apply Filters</button>
+                  <button type='button' onClick = {() => resetFilters()} className='search-btn'>Reset Filters</button>
+                  <div className='key'><p className='legend'>Legend</p>
+                  {/* <div className='key-value'><i class="fa-solid fa-check"></i> <p className='value'>&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;Ebook Available</p></div>
+                  <div className='key-value'><button className='N'>Request</button> <p className='value'>&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;Request Button to request that book</p></div> */}
+                  <table className='legend-values'>
+                    <tr className='key-value'>
+                      <td><i class="fa-solid fa-check"></i></td>
+                      <td className='value'>Ebook Available</td>
+                    </tr>
+                    <tr className='key-value'>
+                      <td><button className='N'>Request</button></td>
+                      <td className='value'>Button to request that book</td>
+                    </tr>
+                  </table>
+                  </div>
+                  <div id="contact-us">
+                    {!isFormVisible ? (
+                      <button className="contact-us-btn" onClick={handleButtonClick}>
+                        Contact Us For More Information
+                      </button>
+                    ) : (
+                      <form onSubmit={contactUsForm}>
+                        <div className="form-group">
+                          <label htmlFor="name">Name:</label>
+                          <input type="text" id="name" name="name" required />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="email">Email:</label>
+                          <input type="email" id="email" name="email" required />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="message">Message:</label>
+                          <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <div className="button-container">
+                          <button type="submit">Submit</button>
+                        </div>
+                      </form>
+                    )}
+                  </div>
                 </div>
               }
               
@@ -523,7 +710,7 @@ const TableComponent = () => {
     
                   <thead>
                     <tr className='heading'>
-                      <th></th>
+                      <th>Status</th>
                       <th onClick={() => handleSort('Book Title')} className='ordering'>
                         Book Title
                         <i className="fa fa-sort"></i>
@@ -547,7 +734,7 @@ const TableComponent = () => {
                           {book['Available'] === 'Y' ? (
                             <div className={book['Available']} onClick={() => sendEmail(true, book['Book Title'])}>
                               {/* <button className='request'>Request</button> */}
-                              <i class="fa-solid fa-check"></i>
+                              <i class="fa-solid fa-check" title = 'Available'></i>
                             </div>
                           ) : (
                             <div className={book['Available']} onClick={() => sendEmail(false, book['Book Title'])}>
@@ -579,7 +766,11 @@ const TableComponent = () => {
                   </tbody>
                 </table>
               ) : (
-                <div className='no-data'>No data available for the selected filters.</div>
+                <div className='no-data'>
+                  <p>No data available for the selected filters.</p>
+                  <button className='more-info' onClick={generateContactForm}>Contact For More Information</button>
+                  <div id='contact-form'></div>
+                </div>
               )}
     
               {/*check pagination here, add the page state here, which can reset to one later*/}

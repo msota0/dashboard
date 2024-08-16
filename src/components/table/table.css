@@ -88,25 +88,15 @@
   width: 100%; /* Ensure it uses full width */
 }
 
+.reset{
+  margin-left: 10px;
+}
+
 
 .main-container > div{
   margin: 10px;
   /* text-align: center; */
 }
-
-.spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-}
-
-.spinner-container p {
-  margin-top: 10px;
-  font-size: 1.2em;
-}
-
 
 .section-one {
   text-align: left;
@@ -174,6 +164,10 @@
   background-color: white;
 } */
 
+.class-level{
+  margin-bottom: 30px;
+}
+
 .class{
   font-size: 14px;
   padding: 8px;
@@ -185,11 +179,107 @@
   color: black;
 }
 
+.search-btn{
+  border: black solid 0.5px;
+  margin-right: 20px;
+}
+
+.key{
+  display: flex;
+  flex-direction: column;;
+  align-items: center;
+  border: solid black 0.5px;
+  padding: 15px 15px 15px 15px;
+  margin-top: 50px;
+}
+
+.legend{
+  font-weight: 700;
+}
+
+/* .key-value{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+} */
+
+.legend-values{
+  border-spacing: 20px;
+}
+
+.key-value i{
+  -webkit-text-stroke: 2px black;
+  cursor: pointer;
+  font-weight: 600;
+  /* text-align: center; */
+}
+
+.key-value button{
+  border: solid red 0.5px;
+  width: 100px;
+  height: 40px;
+}
+
+.value{
+  font-size: 13px;
+  text-align: left;
+  margin-left: 10px;
+}
+
+#contact-us {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack form groups vertically */
+  align-items: center; /* Center form groups horizontally */
+  justify-content: center; /* Center form groups vertically within the container */
+  padding: 20px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Space between form groups */
+}
+
+.form-group label {
+  font-size: 14px;
+  color: black;
+  width: 100px; /* Adjust width to fit your design */
+}
+
+#contact-us input, #contact-us textarea {
+  font-size: 13px;
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px; /* Adjust the width as needed */
+  background-color: white;
+  color: black;
+}
+
+#contact-us textarea {
+  height: 200px; /* Adjust the height as needed */
+}
+
+.btn-refine{
+  margin-right: 10px;
+}
+
+.contact-us-btn{
+  font-size: 14px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
 .section-two {
   flex: 1; /* Takes up remaining space */
   display: flex; /* Use flexbox for its children */
   flex-direction: column; /* Stack children vertically */
-  justify-content: center; /* Center children vertically */
   align-items: center; /* Center children horizontally */
   padding: 20px; /* Add padding if needed */
 }
@@ -209,7 +299,7 @@
 }
 
 .heading {
-  background-color: #efc7cc;
+  background-color: #d4d9dd;
 }
 
 .heading th {
@@ -222,12 +312,12 @@
 }
 
 th.ordering i {
-  color: #000; /* Adjust color as needed */
+  color: #000; 
   margin-left: 5px; /* Space between text and icon */
 }
 
 tbody tr:nth-child(even) {
-  background-color: #dcdef7; /* Alternate row color */
+  background-color: #cfe6f7; /* Alternate row color */
 }
 
 tr > td{
@@ -247,8 +337,8 @@ tr > td{
 .Y {
   /* width: 10px;
   height: 10px; */
-  -webkit-text-stroke: 2px #28ad10;
-  color: #28ad10;
+  -webkit-text-stroke: 2px black;
+  
   /* border-radius: 50%; */
   cursor: pointer;
   font-weight: 600;
@@ -264,6 +354,7 @@ tr > td{
   /* color: red; */
   /* border-radius: 50%; */
   /* border-radius: 50%; */
+  color: red;
   cursor: pointer; 
   font-weight: 600;
   display: flex;
@@ -285,12 +376,12 @@ tr > td{
   background-color: white;
   font-size: 12px;
   margin-left: 14px;
-  color: black;
+  color:red;
   cursor: pointer;
   /* margin: 5px; 
   padding: 5px 10px;  */
   text-align: center;
-  border: solid black 0.5px;
+  border: solid red 0.5px;
 }
 
 /* a, a:hover, a:focus, a:active {
@@ -302,6 +393,75 @@ tr > td{
   color: red;
   font-weight: 600;
   font-size: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#contact-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack form groups vertically */
+  align-items: center; /* Center form groups horizontally */
+  justify-content: center; /* Center form groups vertically within the container */
+  padding: 20px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Space between form groups */
+}
+
+.form-group label {
+  font-size: 14px;
+  color: black;
+  width: 150px; /* Adjust width to fit your design */
+}
+
+#contact-form input, #contact-form textarea {
+  font-size: 13px;
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 500px; /* Adjust the width as needed */
+  background-color: white;
+  color: black;
+}
+
+#contact-form textarea {
+  height: 200px; /* Adjust the height as needed */
+}
+
+/* Center align button container */
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Ensure it takes the full width of the form */
+  margin-top: 20px; /* Space above the button */
+}
+
+#contact-form button {
+  font-size: 14px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+#contact-form button:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+
+.more-info{
+  font-size: 14px;
+  border: black 0.5px solid;
 }
 
 .pagination {

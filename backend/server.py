@@ -10,68 +10,61 @@ CORS(app)
 mapping_options = {
     '1': 'Book Title',
     '2': 'First Author',
-    '3': 'Discipline'
+    '3': 'Discipline',
+    '4': 'Subject Heading'
 }
-subjects = ['African American Studies', 'African Studies', 'Agriculture', 'American Indian Studies', 'American Studies',
-    'Anthropology', 'Aquatic Sciences', 'Archaeology', 'Architecture & Architectural History',
-    'Architecture and Architectural History', 'Art & Art History', 'Asian Studies', 'Astronomy', 'Bibliography',
-    'Biological Sciences', 'Botany & Plant Sciences', 'British Studies', 'Business', 'Chemistry',
-    'Classical Studies', 'Communication Studies', 'Computer Science', 'Criminology & Criminal Justice',
-    'Cultural Studies', 'Development Studies', 'Developmental & Cell Biology', 'Ecology & Evolutionary Biology',
-    'Economics', 'Education', 'Engineering', 'Environmental Science', 'Environmental Studies', 'European Studies',
-    'Feminist & Women\'s Studies', 'Film Studies', 'Finance', 'Folklore', 'Food Studies', 'Garden & Landscape',
-    'Gender Studies', 'General Science', 'Geography', 'Geology', 'Health Policy', 'Health Sciences', 'History',
-    'History of Science & Technology', 'Horticulture', 'International Relations', 'Irish Studies', 'Jewish Studies',
-    'Labor & Employment Relations', 'Language & Literature', 'Latin American Studies', 'Law', 'Library Science',
-    'Linguistics', 'Management & Organizational Behavior', 'Marketing & Advertising', 'Mathematics',
-    'Middle East Studies', 'Military Studies', 'Museum Studies', 'Music', 'Paleontology', 'Peace & Conflict Studies',
-    'Performing Arts', 'Philosophy', 'Physics', 'Political Science', 'Population Studies', 'Psychology',
-    'Public Health', 'Public Policy & Administration', 'Religion', 'Science & Technology Studies', 'Slavic Studies',
-    'Social Work', 'Sociology', 'Statistics', 'Technology', 'Transportation Studies', 'Urban Studies', 'Zoology',
-    'gardland-discipline', 'horticulture-discipline']
+subjects = ['1990-1999', 'Terrorism', 'Quantitative/Statistical', 'Narrow Topic', 'Early Childhood Education', 'Allied Health', 'Nanotechnology', 
+'Nursing', 'Agricultural', 'Edited Work', '1910-1919', 'Science Fiction', '1960-1969', 'Urban', 'Career', 'Biotechnology', 'Journalistic Treatment', 
+'Genocide', '18th Century', 'UK Title Announcement', '17th Century', 'Medical', 'Philosophical', 'COVID-19', '1900-1909', 'Devotional', 'Coaching', 
+'Anthropological', 'Bible Commentary', 'Counseling', 'School Library', 'Science', 'Leadership', 'Political', '20th Century', '16th Century', 'Environmental', 
+'Staple Bound', 'Ethical', 'Doctrinal', 'Rural', 'Educational', 'Religious', 'Pictorial Work', 'Technical (Law)', 'General Librarianship', '1980-1989', 
+'Music', 'Topics Current Media', 'Social Work', 'Archaeological', 'Elementary Education', 'Globalization', 'Romance Novel', 'European Union', 'Historical', 
+'History of Science', 'Overview', 'Guidebook', 'Fantasy Novel', '1970-1979', 'Sociological', 'Academic/Research Library', '19th Century', 'Major Work', 
+'Mystery', 'Pastoral', 'Spiral Bound', 'Computer', '1920-1929', 'Architectural', 'Geographical', 'Distance Education', 'Public Library', 'Kindergarten', 
+'Military', 'Higher Educational', '1930-1939', 'Vocational/Technician', 'Art', '1950-1959', 'Proselytizing', 'Public Policy', 'Language', 'Economic', 
+'Teaching of', 'Clinical', 'ESL', 'Secondary Education', 'Local Interest', 'Mass Media', 'Marine', 'Business', 'Foreign Relations', 'Dance', 'Psychological', 
+'Thriller', 'Self-help', 'Legal', 'Theatre/Drama', 'Crime and Criminology', 'Communications', '1940-1949', 'Human Rights', 'Management', 'Description and Travel']
 
 # @lru_cache(maxsize=None)
 def load_excel_data():
-    # Load Excel file into a DataFrame
-    file_path = r'C:\Users\MDsota\Desktop\dashboard\backend\complete_list.xlsx'
-    df = pd.read_excel(file_path, sheet_name='Sheet1')  
-
-    # Rename columns to match your keys
+    file_path = r'processed_file.csv'
+    dtype_dict = {
+        'GOBI Standardized ISBN': str,
+        'GOBI Title': str,
+        'Author': str,
+        'Aspects_String': str,
+        'Publisher': str,
+        'Publication Year': int,
+    }
+    df = pd.read_csv(file_path, dtype=dtype_dict, low_memory=False)
+    
+    # Print out the columns to check names
+    print("Columns available in DataFrame:", df.columns.tolist())
+    
     df = df.rename(columns={
-        'ebook ISBN without hyphens': 'ISBN',
-        'publication_title': 'Book Title',
-        'first_author': 'First Author',
-        'discipline': 'Discipline',
-        'publisher_name': 'Publisher',
-        'copyright_year': 'Copyright Year',
-        'title_url' : 'title_url', 
-        'class_level': 'Class Level',
-        'available': 'Available'
-        
+        'GOBI Standardized ISBN': 'New_ISBN',
+        'GOBI Title': 'Book Title',
+        'Author': 'First Author',
+        'Aspects_String': 'Discipline',
+        'Publisher': 'Publisher',
+        'Publication Year': 'Copyright Year',
+        'Is available UU?' : 'Available'
     })
-    for subject in subjects:
-        df[subject] = 0
-
-    # Update values based on the 'Discipline' field
-    for index, row in df.iterrows():
-        discipline = str(row['Discipline'])  # Convert to string to handle NaN values
-        if pd.notna(discipline):
-            for subject in subjects:
-                if subject in discipline:
-                    df.at[index, subject] = 1
-
+    
     print('Loaded Excel as DataFrame with additional subject columns')
     return df
 
 
 df = load_excel_data() 
+print(df.head(5))
+print("Columns available in DataFrame:", df.columns.tolist())
 
 @cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 @app.route('/data', methods=['POST'])
 def handle_data():
     data = request.json  # Extract JSON data from request body
     optionNumber = data.get('number')
-    inputValue = data.get('inputValue') if optionNumber in ['1', '2'] else None
+    inputValue = data.get('inputValue') if optionNumber in ['1', '2', '4'] else None
     selectedSubject = data.get('selectedSubject') if optionNumber == '3' else None
     selectedVal = data.get('selectedVal')
 
@@ -90,34 +83,43 @@ def handle_data():
 
     return jsonify(queried_data)
 
-
 def query_excel(df, option, inputVal, selectedSubject):
+    print('check')
     column_name = mapping_options.get(option)
-    print('check',inputVal, type(inputVal))
+    print(option, inputVal)
     if column_name:
-        if option == '1' or option == '2':
+        if option == '1' or option == '2'or option == '4':
             inputVal_lower = inputVal.lower()
-            # Perform case-insensitive search
+            print(inputVal)
+            # Perform case-insensitive search using vectorized operations
             filtered_df = df[df[column_name].astype(str).str.lower().str.contains(inputVal_lower, na=False)]
             
-            # Extract relevant columns
-            result_data = filtered_df[['Book Title', 'First Author', 'Discipline', 'Publisher', 'Copyright Year', 'title_url', 'Class Level', 'Available']]
+            # Extract relevant columns only if they exist
+            columns_to_extract = ['Book Title', 'First Author', 'Discipline', 'Processed Subject Heading', 'Publisher', 'Copyright Year', 'New_ISBN', 'Available', 'Level', 'Language', 'is_textbook', 'Select Level', 'url']
+            result_data = filtered_df[columns_to_extract].dropna(how='all')  # Drop rows where all extracted columns are NaN
+            if option == '4':
+                print(filtered_df['Processed Subject Heading'].head(1))
         
         else:
-            # Convert Discipline column to string and then split by ';'
+            # Perform vectorized string matching for 'Discipline'
+            # Convert selectedSubject to uppercase once
+            selectedSubject_upper = selectedSubject.upper()
             
-            # Filter based on selectedSubject in the flattened Discipline column
-            selectedSubject_edit = selectedSubject.strip()
-            filtered_df = df[df[selectedSubject_edit] == 1]
-
-            # Extract relevant columns
-            result_data = filtered_df[['Book Title', 'First Author', 'Discipline', 'Publisher', 'Copyright Year', 'title_url', 'Class Level', 'Available']]
+            # Use vectorized operations to check if selectedSubject is in 'Aspects_String'
+            mask = df['Discipline'].astype(str).str.upper().str.contains(selectedSubject_upper, na=False)
+            
+            filtered_df = df[mask]
+            
+            # Extract relevant columns only if they exist
+            columns_to_extract = ['Book Title', 'First Author', 'Discipline', 'Processed Subject Heading', 'Publisher', 'Copyright Year', 'New_ISBN', 'Available', 'Level', 'Language', 'is_textbook', 'Select Level', 'url']
+            result_data = filtered_df[columns_to_extract].dropna(how='all')  # Drop rows where all extracted columns are NaN
         
-        # Sort result_data by 'Copyright Year' in descending order
-        result_data_sorted = filtered_df.sort_values(by='Copyright Year', ascending=False)
+        # Sort result_data by 'Copyright Year' in descending order, if the column exists
+        if 'Copyright Year' in result_data.columns:
+            result_data = result_data.sort_values(by='Copyright Year', ascending=False)
         
         # Convert sorted result_data to dictionary format
-        result_data_dict = result_data_sorted.to_dict(orient='records')
+        result_data_dict = result_data.to_dict(orient='records')
         
         return result_data_dict
 

@@ -13,7 +13,7 @@
  .table-v1 {
   background-color: white;
   color: black;
-  width: 200vh;
+  width: 1910px;
   min-height: 100vh; /* Use min-height instead of height */
   display: flex;
   flex-direction: column;
@@ -84,6 +84,8 @@
 
 .main-container {
   display: flex;
+  text-align: center;
+  justify-content: center;
   flex-wrap: nowrap;
   width: 100%; /* Ensure it uses full width */
 }
@@ -93,22 +95,27 @@
 }
 
 
-.main-container > div{
+/* .main-container > div{
   margin: 10px;
-  /* text-align: center; */
-}
+
+} */
 
 .section-one {
   text-align: left;
   border-right: solid black 0.5px;
-  margin-left: 0;
-  padding: 20px; /* Add padding if needed */
-  flex: 0 0 300px; /* Fixed width or adjust as needed */
+  margin-left: 10px;
+  padding-left: 5px;
+  padding: 10px; /* Add padding if needed */
+
+  max-width: 300px;
 }
 
+label{
+  font-size: 14px;
+}
 
 .subject-select{
-  font-size: 14px;
+  font-size: 12px;
   padding: 8px;
   margin: 5px;
   border: 1px solid #ccc;
@@ -119,7 +126,7 @@
 }
 
 .year {
-  font-size: 13px;
+  font-size: 12px;
   padding: 8px;
   margin: 5px;
   border: 1px solid #ccc;
@@ -155,21 +162,28 @@
   
 }
 
-/* .radio input[type="radio"]::before{
-  background-color: white;
-  opacity: 0;
+.language-filter{
+  margin-bottom: 40px;
 }
 
-.radio input[type="radio"]:checked{
+.lang-select{
+  font-size: 12px;
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
   background-color: white;
-} */
+  color: black;
+  margin-bottom: 40px;
+}
 
 .class-level{
   margin-bottom: 30px;
 }
 
 .class{
-  font-size: 14px;
+  font-size: 12px;
   padding: 8px;
   margin: 10px;
   border: 1px solid #ccc;
@@ -182,14 +196,18 @@
 .search-btn{
   border: black solid 0.5px;
   margin-right: 20px;
+  margin-bottom: 20px;
+  width: 150px;
 }
 
 .key{
   display: flex;
   flex-direction: column;;
   align-items: center;
+  text-align: center;
+  max-width: 250px;
   border: solid black 0.5px;
-  padding: 15px 15px 15px 15px;
+  padding: 5px 5px 5px 5px;
   margin-top: 50px;
 }
 
@@ -215,9 +233,10 @@
 }
 
 .key-value button{
-  border: solid red 0.5px;
+  /* border: solid red 0.5px; */
   width: 100px;
   height: 40px;
+  color: #000;
 }
 
 .value{
@@ -232,7 +251,8 @@
   flex-direction: column; /* Stack form groups vertically */
   align-items: center; /* Center form groups horizontally */
   justify-content: center; /* Center form groups vertically within the container */
-  padding: 20px;
+  padding-top: 20px;
+  /* padding: 10px; */
 }
 
 .form-group {
@@ -242,7 +262,7 @@
 }
 
 .form-group label {
-  font-size: 14px;
+  font-size: 12px;
   color: black;
   width: 100px; /* Adjust width to fit your design */
 }
@@ -277,19 +297,24 @@
 }
 
 .section-two {
-  flex: 1; /* Takes up remaining space */
+  flex: 3; 
   display: flex; /* Use flexbox for its children */
   flex-direction: column; /* Stack children vertically */
   align-items: center; /* Center children horizontally */
   padding: 20px; /* Add padding if needed */
+  margin: 0 0 0 0;
 }
 
 
 .section-two table {
-  width: 1400px; /* Ensure table fills its container */
-  font-size: 13px;
-  border-collapse: collapse;
+  width: 1500px; /* Ensure table fills its container */
+  font-size: 12px;
+  /* border-collapse: collapse; */
   
+}
+
+td{
+  padding: 5px 5px 5px 5px;
 }
 
 .section-two p {

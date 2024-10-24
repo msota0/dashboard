@@ -7,25 +7,17 @@ import liblogo from '../../assets/lib-logo.png';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 const TableComponent = () => {
-  const subjects = [
-    'African American Studies', 'African Studies', 'Agriculture', 'American Indian Studies', 'American Studies',
-    'Anthropology', 'Aquatic Sciences', 'Archaeology', 'Architecture & Architectural History',
-    'Architecture and Architectural History', 'Art & Art History', 'Asian Studies', 'Astronomy', 'Bibliography',
-    'Biological Sciences', 'Botany & Plant Sciences', 'British Studies', 'Business', 'Chemistry',
-    'Classical Studies', 'Communication Studies', 'Computer Science', 'Criminology & Criminal Justice',
-    'Cultural Studies', 'Development Studies', 'Developmental & Cell Biology', 'Ecology & Evolutionary Biology',
-    'Economics', 'Education', 'Engineering', 'Environmental Science', 'Environmental Studies', 'European Studies',
-    'Feminist & Women\'s Studies', 'Film Studies', 'Finance', 'Folklore', 'Food Studies', 'Garden & Landscape',
-    'Gender Studies', 'General Science', 'Geography', 'Geology', 'Health Policy', 'Health Sciences', 'History',
-    'History of Science & Technology', 'Horticulture', 'International Relations', 'Irish Studies', 'Jewish Studies',
-    'Labor & Employment Relations', 'Language & Literature', 'Latin American Studies', 'Law', 'Library Science',
-    'Linguistics', 'Management & Organizational Behavior', 'Marketing & Advertising', 'Mathematics',
-    'Middle East Studies', 'Military Studies', 'Museum Studies', 'Music', 'Paleontology', 'Peace & Conflict Studies',
-    'Performing Arts', 'Philosophy', 'Physics', 'Political Science', 'Population Studies', 'Psychology',
-    'Public Health', 'Public Policy & Administration', 'Religion', 'Science & Technology Studies', 'Slavic Studies',
-    'Social Work', 'Sociology', 'Statistics', 'Technology', 'Transportation Studies', 'Urban Studies', 'Zoology',
-    'gardland-discipline', 'horticulture-discipline'
-  ]
+  const subjects = ['1990-1999', 'Terrorism', 'Quantitative/Statistical', 'Narrow Topic', 'Early Childhood Education', 'Allied Health', 'Nanotechnology', 
+    'Nursing', 'Agricultural', 'Edited Work', '1910-1919', 'Science Fiction', '1960-1969', 'Urban', 'Career', 'Biotechnology', 'Journalistic Treatment', 
+    'Genocide', '18th Century', 'UK Title Announcement', '17th Century', 'Medical', 'Philosophical', 'COVID-19', '1900-1909', 'Devotional', 'Coaching', 
+    'Anthropological', 'Bible Commentary', 'Counseling', 'School Library', 'Science', 'Leadership', 'Political', '20th Century', '16th Century', 'Environmental', 
+    'Staple Bound', 'Ethical', 'Doctrinal', 'Rural', 'Educational', 'Religious', 'Pictorial Work', 'Technical (Law)', 'General Librarianship', '1980-1989', 
+    'Music', 'Topics Current Media', 'Social Work', 'Archaeological', 'Elementary Education', 'Globalization', 'Romance Novel', 'European Union', 'Historical', 
+    'History of Science', 'Overview', 'Guidebook', 'Fantasy Novel', '1970-1979', 'Sociological', 'Academic/Research Library', '19th Century', 'Major Work', 
+    'Mystery', 'Pastoral', 'Spiral Bound', 'Computer', '1920-1929', 'Architectural', 'Geographical', 'Distance Education', 'Public Library', 'Kindergarten', 
+    'Military', 'Higher Educational', '1930-1939', 'Vocational/Technician', 'Art', '1950-1959', 'Proselytizing', 'Public Policy', 'Language', 'Economic', 
+    'Teaching of', 'Clinical', 'ESL', 'Secondary Education', 'Local Interest', 'Mass Media', 'Marine', 'Business', 'Foreign Relations', 'Dance', 'Psychological', 
+    'Thriller', 'Self-help', 'Legal', 'Theatre/Drama', 'Crime and Criminology', 'Communications', '1940-1949', 'Human Rights', 'Management', 'Description and Travel']
   // State variables for table data and filters
   const [showTable, setShowTable] = useState(false)
   const [filteredData, setFilteredData] = useState([]);
@@ -38,8 +30,6 @@ const TableComponent = () => {
   const [tableData, setTableData] = useState([]);
   const [selectedAvailability, setSelectedAvailability] = useState('');
   const [selectedClassLevel, setSelectedClassLevel] = useState('');
-  // const [jsonArray, setJsonArray] = useState([]);
-  // const [inputValue, setInputValue] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [subjectOptions, setSubjectOptions] = useState(subjects);
   const [refineSubjects, setRefineSubjects] = useState(subjects);
@@ -48,18 +38,20 @@ const TableComponent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleAvail, setIsVisibleAvail] = useState(false);
   const [isVisibleClass, setIsVisibleClass] = useState(false);
+  const [isVisibletb, setIsVisibletb] = useState(false);
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [loading, setLoading] = useState (false)
   const [isFormVisible, setFormVisible] = useState(false);
-  
-  // const [currentPage, setCurrentPage] = useState(1)
-  
+  const [isTb, setIsTb] = useState(false);
+  const [isVisibleLanguage, setIsVisibleLanguage] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('');
 
   const mapping = {
     '1': 'Textbook Title',
     '2': 'Author',
-    '3': 'Subject'
+    '3': 'Aspect',
+    '4' : 'Subject'
   };
   let perfEntries
   useEffect(() => {
@@ -74,7 +66,6 @@ const TableComponent = () => {
     alert('Your query form is submitted!')
     setFormVisible(false);
   }
-  
 
   const handleButtonClick = () => {
     
@@ -97,6 +88,8 @@ const TableComponent = () => {
     setCurrentPage(1)
     setRefineSubjects('')
     setFiltersApplied(false)
+    setIsTb('')
+    setSelectedLanguage('')
   };
 
   const handleSubjectSelection = (event) => {
@@ -104,21 +97,16 @@ const TableComponent = () => {
     // setCurrentPage(1)
   };
 
+  const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value);
+    setCurrentPage(1)
+};
+
   const refineSubject = (event) => {
     let val = event.target.value
 
     setRefineSubjectSelection(val.trim());
   };
-
-  // const handleInputChange = (event) => {
-  //   const value = event.target.value;
-  //   setSelectedSubject(value); // Update selected subject as user types
-  //   // Filter subject options based on input text
-  //   const filteredOptions = subjectOptions.filter(option =>
-  //     option.toLowerCase().includes(value.toLowerCase())
-  //   );
-  //   setSubjectOptions(filteredOptions);
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -126,7 +114,7 @@ const TableComponent = () => {
     setCurrentPage(1)
     let formData = {};
   
-    if (selectedVal === '1' || selectedVal === '2') {
+    if (selectedVal === '1' || selectedVal === '2' || selectedVal === '4') {
       const inputValue = event.target.querySelector('input[type="text"]').value;
       formData = {
         number: selectedVal,
@@ -140,17 +128,12 @@ const TableComponent = () => {
         selectedSubject: selectedSubject,
       };
     }
-  
+    console.log('formdata:', formData)
     setShowTable(true);
   
     try {
       const response = await axios.post('http://127.0.0.1:5173/data', formData);
       let jsonArray = Array.isArray(response.data) ? response.data : eval('(' + response.data + ')');
-  
-      // const updatedTableData = jsonArray.map(book => ({
-      //   ...book,
-      //   'Copyright Year': parseInt(book['Copyright Year'], 10)
-      // }));
       
       setOriginalData(jsonArray); 
       // setTableData(jsonArray);
@@ -165,36 +148,56 @@ const TableComponent = () => {
     }
   };
   
-  
   const applyFilters = () => {
+    console.log('clicked');
     const newFilteredData = filteredData.filter(book => {
-      const copyrightYear = parseInt(book['Copyright Year'], 10);
-  
-      const isWithinYearRange = (
-        (filterStartYear === '' || copyrightYear >= parseInt(filterStartYear, 10)) &&
-        (filterEndYear === '' || copyrightYear <= parseInt(filterEndYear, 10))
-      );
-  
-      const isAvailable = selectedAvailability === 'available' ? book['Available'] === 'Y' : true;
-      const isUnavailable = selectedAvailability === 'unavailable' ? book['Available'] === 'N' : true;
-  
-      const isCorrectClassLevel = (
-        selectedClassLevel === '' ||
-        (selectedClassLevel === '1' && book['Class Level'] === 'UG') ||
-        (selectedClassLevel === '2' && book['Class Level'] === 'G')
+        const copyrightYear = parseInt(book['Copyright Year'], 10);
+
+        const isWithinYearRange = (
+            (filterStartYear === '' || copyrightYear >= parseInt(filterStartYear, 10)) &&
+            (filterEndYear === '' || copyrightYear <= parseInt(filterEndYear, 10))
+        );
+
+        const isAvailable = selectedAvailability === 'available' ? book['Available'] === 'Y' : true;
+        const isUnavailable = selectedAvailability === 'unavailable' ? book['Available'] === 'N' : true;
+        const isTbFilter = isTb === 'tb' ? book['is_textbook'] === 'Y' : true;
+        const notTbFilter = isTb === 'notb' ? book['is_textbook'] === 'N' : true;
+
+        // console.log(typeof(selectedClassLevel))
+
+        // Adjusted condition for numeric class levels
+        const isCorrectClassLevel = (
+            selectedClassLevel === '' ||
+            (String(book['Level']) === selectedClassLevel)
+        );
+
+        const isLanguage = (
+          selectedLanguage === '' ||
+          (String(book['Language']) === String(selectedLanguage))
       );
 
-      const whichSubject = selectedSubject !== '' 
-  ? (refineSubjectSelection === '' || (book[refineSubjectSelection] === 1 && book[selectedSubject] === 1))
-  : (refineSubjectSelection === '' || (book[refineSubjectSelection] === 1 || book[selectedSubject] === 1));
+        // Ensure book.Discipline is a string before splitting
+        const disciplineString = typeof book['Discipline'] === 'string' ? book['Discipline'] : '';
+        const aspectsArray = disciplineString.split(',').map(subject => subject.trim().toUpperCase());
 
-  
-      return isWithinYearRange && isAvailable && isUnavailable && isCorrectClassLevel && whichSubject;
+        // Check if the selectedSubject is in the array of aspects
+        const subjectMatch = selectedSubject !== '' 
+            ? aspectsArray.includes(selectedSubject.toUpperCase())
+            : true;
+
+        // Apply refineSubjectSelection if provided
+        const refineMatch = refineSubjectSelection === '' 
+            ? true
+            : aspectsArray.includes(refineSubjectSelection.toUpperCase());
+
+        const whichSubject = subjectMatch && refineMatch;
+
+        return isWithinYearRange && isAvailable && isUnavailable && isCorrectClassLevel && whichSubject && isTbFilter && notTbFilter && isLanguage;
     });
-  
+    setCurrentPage(1)
     setFilteredData(newFilteredData);
-    setFiltersApplied(true); // Update filtersApplied after setting filtered data
-  };
+    setFiltersApplied(true); // Ensure to set filters as applied
+};
 
   const resetFilters = () =>{
     setFilterStartYear('');
@@ -209,11 +212,13 @@ const TableComponent = () => {
     setIsVisibleYear(false)
     setIsVisibleClass(false)
     setIsVisibleAvail(false)
+    setIsTb('')
+    setSelectedLanguage('')
   }
 
   const renderSelectedComponent = () => {
     let placeholder = '';
-    if (selectedVal === '1' || selectedVal === '2') {
+    if (selectedVal === '1' || selectedVal === '2' || selectedVal === '4') {
       placeholder = 'Enter ' + mapping[selectedVal] + ' ...';
       return (
         <>
@@ -225,7 +230,7 @@ const TableComponent = () => {
       return (
         <>
           <select value={selectedSubject} onChange={handleSubjectSelection} className='subjects' required>
-            <option value="" disabled hidden>Select Subject...</option>
+            <option value="" disabled hidden>Select Aspect...</option>
             {subjectOptions.map((subject, index) => (
               <option className='subjects' key={index} value={subject}>
                 {subject}
@@ -237,50 +242,7 @@ const TableComponent = () => {
       );
     }
 };
-
-
-  // Use effect to process incoming data
-  // useEffect(() => {
-  //   if (tableData.length > 0) {
-  //     const updatedTableData = tableData.map(book => ({
-  //       ...book,
-  //       'Copyright Year': parseInt(book['Copyright Year'], 10)
-  //     }));
-  //     setTableData(updatedTableData);
-  //   }
-  // }, [tableData]);
-  
-
-  // Define itemsPerPage before using it
   const itemsPerPage = 50;
-
-  // Filtering and sorting
-  // let filteredData = tableData
-  // filteredData = 
-  // const applyFilters = () =>{
-  //   const newFilteredData  = tableData.filter(book => {
-  //     const copyrightYear = parseInt(book['Copyright Year'], 10);
-  
-  //     const isWithinYearRange = (
-  //       (filterStartYear === '' || copyrightYear >= parseInt(filterStartYear, 10)) &&
-  //       (filterEndYear === '' || copyrightYear <= parseInt(filterEndYear, 10))
-  //     );
-  
-  //     const isAvailable = selectedAvailability === 'available' ? book['Available'] === 'Y' : true;
-  //     const isUnavailable = selectedAvailability === 'unavailable' ? book['Available'] === 'N' : true;
-  
-  //     const isCorrectClassLevel = (
-  //       selectedClassLevel === '' ||
-  //       (selectedClassLevel === '1' && book['Class Level'] === 'UG') ||
-  //       (selectedClassLevel === '2' && book['Class Level'] === 'G')
-  //     );
-  
-  //     return isWithinYearRange && isAvailable && isUnavailable && isCorrectClassLevel;
-  //   });
-  //   setFilteredData(newFilteredData)
-  //   setFiltersApplied(true);
-  // }
-  
 
   const sortedData = [...filteredData].sort((a, b) => {
     const aValue = a[sortBy];
@@ -317,9 +279,14 @@ const TableComponent = () => {
     setCurrentPage(1);
   };
 
+  const handletbChange = (event) => {
+    setIsTb(event.target.value);
+    setCurrentPage(1);
+  };
+
   const handleClassLevelChange = (event) => {
     setSelectedClassLevel(event.target.value);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const sendEmail = (check, bookTitle) => {
@@ -331,8 +298,16 @@ const TableComponent = () => {
   };
 
 
+  const toggleVisibilityLanguage = () => {
+    setIsVisibleLanguage (!isVisibleLanguage );
+  };
+
   const toggleVisibilitySubject = () => {
     setIsVisible(!isVisible);
+  };
+
+  const toggleVisibilityTextbook = () => {
+    setIsVisibletb(!isVisibletb);
   };
 
   const toggleVisibilityYear = () => {
@@ -359,9 +334,6 @@ const TableComponent = () => {
   useEffect(() => {
     console.log('Table Data:', tableData);
     console.log('Filtered Data:', filteredData);
-    // console.log(filtersApplied)
-    // console.log('check length', filteredData.length > 0)
-    // console.log(filteredData.length > 0 && filtersApplied)
   }, [tableData, filteredData]);
   
   const table_class = visibleData.length <= 50 ? 'table-v1' : 'table-v2';
@@ -428,81 +400,6 @@ const TableComponent = () => {
     contact.innerHTML = '';
     contact.appendChild(form);
 }
-
-// const contactUsForm = () => {
-//   let contact = document.getElementById('contact-us');
-  
-//   let form = document.createElement('form');
-//   form.setAttribute('action', '#'); 
-//   form.setAttribute('method', 'post');
-  
-//   // Function to create label and input wrapper
-//   const createFormGroup = (labelText, inputType, inputId, inputName) => {
-//       let formGroup = document.createElement('div');
-//       formGroup.className = 'form-group';
-
-//       let label = document.createElement('label');
-//       label.setAttribute('for', inputId);
-//       label.textContent = labelText;
-      
-//       let input;
-//       if (inputType === 'textarea') {
-//           input = document.createElement('textarea');
-//       } else {
-//           input = document.createElement('input');
-//           input.setAttribute('type', inputType);
-//       }
-//       input.setAttribute('id', inputId);
-//       input.setAttribute('name', inputName);
-//       input.setAttribute('required', true);
-
-//       formGroup.appendChild(label);
-//       formGroup.appendChild(input);
-      
-//       return formGroup;
-//   };
-
-//   form.appendChild(createFormGroup('Name:', 'text', 'name', 'name'));
-//   form.appendChild(createFormGroup('Email:', 'email', 'email', 'email'));
-//   form.appendChild(createFormGroup('Message:', 'textarea', 'message', 'message'));
-
-//   let buttonContainer = document.createElement('div');
-//   buttonContainer.className = 'button-container';
-  
-//   // Create and append the submit button
-//   let submitButton = document.createElement('button');
-//   submitButton.setAttribute('type', 'submit');
-//   submitButton.textContent = 'Submit';
-  
-//   // Add an onclick event listener to the submit button
-//   submitButton.addEventListener('click', (event) => {
-//       event.preventDefault(); // Prevent the default form submission
-      
-//       alert('Your information has been submitted!');
-      
-//       // Hide the form and show the original button again
-//       form.style.display = 'none';
-//       contact.querySelector('.contact-us-btn').style.display = 'inline-block';
-//   });
-  
-//   buttonContainer.appendChild(submitButton);
-  
-//   // Append the button container to the form
-//   form.appendChild(buttonContainer);
-
-//   // Clear any existing content in the contact div and append the new form
-//   contact.innerHTML = '';
-//   contact.appendChild(form);
-
-//   // Hide the original button and show the form
-//   let originalButton = contact.querySelector('.contact-us-btn');
-//   if (originalButton) {
-//       originalButton.style.display = 'none';
-//   }
-// }
-  
-  
-
   return (
     <div className={table_class}>
       <div className='uni-name'><img src={unilogo} className='uni' alt="University Logo" /></div>
@@ -518,7 +415,8 @@ const TableComponent = () => {
             <option value="" disabled hidden>Select ...</option>
               <option value='1'>Book Title</option>
               <option value='2'>Author</option>
-              <option value='3'>Subject</option>
+              <option value='3'>Aspect</option>
+              <option value= '4'> Subject </option>
             </select>
           </label>
           {renderSelectedComponent()}
@@ -543,12 +441,12 @@ const TableComponent = () => {
                 <div className='section-one'>
                   <h3>Refine Your Search</h3>
                   <div>
-                    <label>Filter by Subject:</label> <button className="btn" onClick={toggleVisibilitySubject}><i className="fa fa-angle-down"></i></button>
+                    <label>Filter by Aspect:</label> <button className="btn" onClick={toggleVisibilitySubject}><i className="fa fa-angle-down"></i></button>
                     {isVisible && (
                     <>
                       {/* <p>check</p> */}
                       <select value={refineSubjectSelection} onChange={refineSubject} className='subject-select' required>
-                        <option value="" disabled hidden>Select Subject...</option>
+                        <option value="" disabled hidden>Select Aspect...</option>
                         {subjectOptions.map((subject, index) => (
                           <option className='subject-select' key={index} value={subject}>
                             {subject}
@@ -617,38 +515,100 @@ const TableComponent = () => {
                       </div>
                     )}
                   </div>
-    
-                  <div className='class-level'>
-                    <label>Filter by Class Level:</label> <button className="btn" onClick={toggleVisibilityClass}><i className="fa fa-angle-down"></i></button>
-                    {isVisibleClass && (
+
+                  <div className='avail'>
+                    <label>Filter by if Textbook:</label> <button className="btn" onClick={toggleVisibilityTextbook}><i className="fa fa-angle-down"></i></button> <br />
+                    {isVisibletb && (
                       <div className='radio-cont'>
                         <div>
                           <input
                             className='radio'
                             type="radio"
-                            id="undergraduate"
-                            name="classLevel"
-                            value="1"
-                            checked={selectedClassLevel === '1'}
-                            onChange={handleClassLevelChange}
+                            id="tb"
+                            name="tb"
+                            value="tb"
+                            checked={isTb === 'tb'}
+                            onChange={handletbChange}
                           />
-                          <label htmlFor="undergraduate" className='radio-class'>Undergraduate</label>
+                          <label htmlFor="available" className='radio-class'>Is Textbook</label>
                         </div>
+    
                         <div>
                           <input
                             className='radio'
                             type="radio"
-                            id="graduate"
-                            name="classLevel"
-                            value="2"
-                            checked={selectedClassLevel === '2'}
-                            onChange={handleClassLevelChange}
+                            id="notb"
+                            name="notb"
+                            value="notb"
+                            checked={isTb === 'notb'}
+                            onChange={handletbChange}
                           />
-                          <label htmlFor="graduate" className='radio-class'>Graduate</label>
+                          <label htmlFor="unavailable" className='radio-class'>Not Textbook</label>
                         </div>
                       </div>
                     )}
                   </div>
+    
+                  <div className='class-level'>
+                    <label>Filter by Class Level:</label>
+                    <button className="btn" onClick={toggleVisibilityClass}>
+                      <i className="fa fa-angle-down"></i>
+                    </button>
+                    {isVisibleClass && (
+                      <div className='dropdown-cont'>
+                        <select
+                          className='subject-select'
+                          value={selectedClassLevel}
+                          onChange={handleClassLevelChange}
+                        >
+                          <option value="" disabled hidden>Select Level...</option>
+                          <option className='subject-select' value="1">1 - Basic-Essential</option>
+                          <option className='subject-select' value="2">2 - Research-Essential</option>
+                          <option className='subject-select' value="3">3 - Basic-Recommended</option>
+                          <option className='subject-select' value="4">4 - Research-Recommended</option>
+                          <option className='subject-select' value="5">5 - Specialized</option>
+                          <option className='subject-select' value="6">6 - Supplementary</option>
+                          <option className='subject-select' value="7">7 - Not a Select book</option>
+                          <option className='subject-select' value="8">8 - Contains book</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className='language-filter'>
+                    <label>Filter by Language:</label>
+                    <button className="btn" onClick={toggleVisibilityLanguage}>
+                        <i className="fa fa-angle-down"></i>
+                    </button>
+                    {isVisibleLanguage && (
+                        <div className='dropdown-cont'>
+                            <select
+                                className='lang-select'
+                                value={selectedLanguage}
+                                onChange={handleLanguageChange}
+                            >
+                                <option value="" disabled hidden>Select Language...</option>
+                                <option className='lang-select' value="English">English</option>
+                                <option className='lang-select' value="German">German</option>
+                                <option className='lang-select' value="French">French</option>
+                                <option className='lang-select' value="Spanish">Spanish</option>
+                                <option className='lang-select' value="Greek">Greek</option>
+                                <option className='lang-select' value="Latin">Latin</option>
+                                <option className='lang-select' value="Hebrew">Hebrew</option>
+                                <option className='lang-select' value="Arabic">Arabic</option>
+                                <option className='lang-select' value="Italian">Italian</option>
+                                <option className='lang-select' value="Russian">Russian</option>
+                                <option className='lang-select' value="Dutch">Dutch</option>
+                                <option className='lang-select' value="Galician">Galician</option>
+                                <option className='lang-select' value="Chinese">Chinese</option>
+                                <option className='lang-select' value="Bulgarian">Bulgarian</option>
+                                <option className='lang-select' value="Other">Other</option>
+                            </select>
+                        </div>
+                    )}
+                </div>
+
+
                   <button type='button' onClick={() => applyFilters()} className='search-btn'>Apply Filters</button>
                   <button type='button' onClick = {() => resetFilters()} className='search-btn'>Reset Filters</button>
                   <div className='key'><p className='legend'>Legend</p>
@@ -692,22 +652,23 @@ const TableComponent = () => {
                   </div>
                 </div>
               }
-              
-    
+
             <div className='section-two'>
               {filteredData.length > 0 ? (
                 <table>
                   <colgroup>
-                  <col style={{ width: '2%' }} /> 
-                    <col style={{ width: '35%' }} /> 
-                    <col style={{ width: '3%' }} /> 
-                    <col style={{ width: '25%' }} /> 
-                    <col style={{ width: '15%' }} /> 
-                    <col style={{ width: '32%' }} /> 
-                    <col style={{ width: '2%' }} /> 
-                    <col style={{ width: '10%' }} /> 
+                    <col style={{ width: '2%' }} />
+                    <col style={{ width: '7%' }} />
+                    <col style={{ width: '2%' }} />
+                    <col style={{ width: '1%' }} />
+                    <col style={{ width: '7%' }} />
+                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '7%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '1%' }} />
+                    <col style={{ width: '1%' }} />
+                    <col style={{ width: '1%' }} />
                   </colgroup>
-    
                   <thead>
                     <tr className='heading'>
                       <th>Status</th>
@@ -715,16 +676,19 @@ const TableComponent = () => {
                         Book Title
                         <i className="fa fa-sort"></i>
                       </th>
+                      <th>ISBN</th>
                       <th onClick={() => handleSort('Copyright Year')} className='ordering'>
                         Copyright Year
                         <i className="fa fa-sort"></i>
                       </th>
     
-                      <th>Discipline</th>
+                      <th>Aspect</th>
+                      <th>Subject Heading</th>
                       <th>Author</th>
                       <th>Publisher</th>
-                      <th>Class Level</th>
-                      <th></th>
+                      <th>Level</th>
+                      <th>Language</th>
+                      <th>textbook</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -742,25 +706,23 @@ const TableComponent = () => {
                             </div> )}
                         </td>
                         <td>
-                          {book['title_url'] ? (
-                            <a className='links' href={book['title_url']} target="_blank" rel="noopener noreferrer">{book['Book Title'] || ''}</a>
+                          {book['url'] ? (
+                            // <a className='links' href={book['title_url']} target="_blank" rel="noopener noreferrer">{book['Book Title'] || ''}</a>
+                            <a className='links' href={book['url']} target="_blank" rel="noopener noreferrer">{book['Book Title'] || ''}</a> || ''
                           ) : (
                             book['Book Title'] || ''
                           )}
                         </td>
+                        <td>{book['New_ISBN'] || ''}</td>
                         <td>{book['Copyright Year'] || ''}</td>
                         <td>{book['Discipline'] || ''}</td>
+                        <td>{book['Processed Subject Heading'] || ''}</td>
                         <td>{book['First Author'] || ''}</td>
                         <td>{book['Publisher'] || ''}</td>
                         {/* <td>{book['Class Level'] || ''}</td> */}
-                        <td className='level'>{book['Class Level'] === 'UG' ? 'Undergraduate' : 'Graduate'}</td>
-                        <td>
-                          {/* {book['Available'] === 'N' ? (
-                            <div className={book['Available']} onClick={() => sendEmail(false, book['Book Title'])}>
-                              <button className='request'>Request</button>
-                            </div>
-                          ) : null} */}
-                        </td>
+                        <td className='level'>{book['Select Level'] || ''}</td>
+                        <td>{book['Language'] || ''}</td>
+                        <td>{book['is_textbook'] || 'empty'}</td>
                       </tr>
                     ))}
                   </tbody>
